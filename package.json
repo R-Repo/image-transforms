@@ -5,12 +5,18 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "mirotone": "5"
   },
   "devDependencies": {
-    "vite": "3.0.3"
+    "@mirohq/websdk-types": "^2.17.2",
+    "@types/node": "^25.9.1",
+    "typescript": "^6.0.3",
+    "vite": "3.0.3",
+    "vitest": "^4.1.8"
   }
 }
