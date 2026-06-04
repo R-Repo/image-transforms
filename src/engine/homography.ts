@@ -1,5 +1,8 @@
 import type { Corners, Mat3, Point } from './types';
 
+// Minimum magnitude for the auxiliary 2x2 determinant / matrix determinant before
+// we treat the configuration as degenerate. Coordinates are in [0,1], so this is
+// far below any meaningful non-degenerate value.
 const EPS = 1e-12;
 
 /**
@@ -35,7 +38,11 @@ export function computeHomography(corners: Corners): Mat3 {
   return [a, b, c, d, e, f, g, h, 1];
 }
 
-/** Apply a homography to a point: (X,Y,W) = H*(x,y,1); returns (X/W, Y/W). */
+/**
+ * Apply a homography to a point: (X,Y,W) = H*(x,y,1); returns (X/W, Y/W).
+ * If W is ~0 the point maps to infinity (valid in projective space); the
+ * result will be Infinity/NaN and callers that care must guard for it.
+ */
 export function project(m: Mat3, p: Point): Point {
   const X = m[0] * p.x + m[1] * p.y + m[2];
   const Y = m[3] * p.x + m[4] * p.y + m[5];
@@ -72,7 +79,7 @@ export function invert3x3(m: Mat3): Mat3 {
 
 /** Row-major 3x3 multiply: returns m * n. */
 export function multiply3x3(m: Mat3, n: Mat3): Mat3 {
-  const r = new Array(9) as Mat3;
+  const r: Mat3 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
       r[row * 3 + col] =

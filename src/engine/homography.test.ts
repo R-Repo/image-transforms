@@ -5,6 +5,7 @@ import {
   invert3x3,
   multiply3x3,
   determinant3x3,
+  toColumnMajor,
 } from './homography';
 import type { Corners } from './types';
 
@@ -32,6 +33,8 @@ describe('computeHomography', () => {
     expect(H[3]).toBeCloseTo(0);
     expect(H[6]).toBeCloseTo(0);
     expect(H[7]).toBeCloseTo(0);
+    expect(H[2]).toBeCloseTo(0);
+    expect(H[5]).toBeCloseTo(0);
   });
 
   it('maps each unit-square corner onto the matching destination corner', () => {
@@ -89,5 +92,19 @@ describe('project (round-trip through inverse)', () => {
 describe('determinant3x3', () => {
   it('is 1 for the identity', () => {
     expect(determinant3x3([1, 0, 0, 0, 1, 0, 0, 0, 1])).toBeCloseTo(1);
+  });
+
+  it('matches a hand-computed value for a non-trivial matrix', () => {
+    // det([[1,2,3],[4,5,6],[7,8,0]]) = -48 + 84 - 9 = 27
+    expect(determinant3x3([1, 2, 3, 4, 5, 6, 7, 8, 0])).toBeCloseTo(27);
+  });
+});
+
+describe('toColumnMajor', () => {
+  it('transposes a row-major Mat3 into a flat column-major Float32Array', () => {
+    // row-major [a,b,c, d,e,f, g,h,i] -> column-major [a,d,g, b,e,h, c,f,i]
+    const result = toColumnMajor([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(result).toBeInstanceOf(Float32Array);
+    expect(Array.from(result)).toEqual([1, 4, 7, 2, 5, 8, 3, 6, 9]);
   });
 });
