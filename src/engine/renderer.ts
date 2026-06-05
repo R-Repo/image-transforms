@@ -19,13 +19,16 @@ void main() {
   vec3 p = u_Hinv * vec3(v_out, 1.0);
   vec2 uv = p.xy / p.z;
   if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) discard;
-  // Source UV origin is top-left; GL texture origin is bottom-left -> flip v.
-  gl_FragColor = texture2D(u_tex, vec2(uv.x, 1.0 - uv.y));
+  // Textures are uploaded with UNPACK_FLIP_Y_WEBGL = false, so source-data row 0
+  // (visual top, UV y=0) lands at texture t=0. UV is top-left origin to match, so
+  // sample directly with no v flip.
+  gl_FragColor = texture2D(u_tex, uv);
 }
 `;
 
 function compile(gl: WebGLRenderingContext, type: number, src: string): WebGLShader {
-  const sh = gl.createShader(type)!;
+  const sh = gl.createShader(type);
+  if (!sh) throw new Error('Failed to create shader');
   gl.shaderSource(sh, src);
   gl.compileShader(sh);
   if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
@@ -47,14 +50,22 @@ export interface WarpProgram {
 export function buildProgram(gl: WebGLRenderingContext): WarpProgram {
   const vs = compile(gl, gl.VERTEX_SHADER, VERT_SRC);
   const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG_SRC);
-  const program = gl.createProgram()!;
+  const program = gl.createProgram();
+  if (!program) throw new Error('Failed to create WebGL program');
   gl.attachShader(program, vs);
   gl.attachShader(program, fs);
   gl.linkProgram(program);
+  // The linked program retains its own compiled copies; free the standalone
+  // shader objects now (deletion defers until they detach on program delete).
+  gl.deleteShader(vs);
+  gl.deleteShader(fs);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    throw new Error('Program link failed: ' + gl.getProgramInfoLog(program));
+    const log = gl.getProgramInfoLog(program);
+    gl.deleteProgram(program);
+    throw new Error('Program link failed: ' + log);
   }
-  const quadBuffer = gl.createBuffer()!;
+  const quadBuffer = gl.createBuffer();
+  if (!quadBuffer) throw new Error('Failed to create quad buffer');
   gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
   // Two triangles covering clip space.
   gl.bufferData(
@@ -127,7 +138,8 @@ export function createRenderer(source: TexImageSource, opts: WarpOptions): Rende
 
   const prog = buildProgram(gl);
 
-  const texture = gl.createTexture()!;
+  const texture = gl.createTexture();
+  if (!texture) throw new Error('Failed to create texture');
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
