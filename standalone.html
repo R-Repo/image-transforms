@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Transforms — Standalone</title>
+    <link rel="stylesheet" href="https://unpkg.com/mirotone/dist/styles.css" />
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 24px; }
+      .it-toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+    </style>
+  </head>
+  <body>
+    <h1>Image Transforms</h1>
+    <div class="it-toolbar">
+      <input id="file" type="file" accept="image/*" />
+      <span class="it-hint">Pick an image, drag the corners or tap a preset, then Apply to download a PNG.</span>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/standalone/main.ts"></script>
+  </body>
+</html>
