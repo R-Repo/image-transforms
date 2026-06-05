@@ -13,6 +13,10 @@ describe('presets', () => {
     ]);
   });
 
+  it('PRESETS defines a quad for exactly the named presets', () => {
+    expect(Object.keys(PRESETS)).toEqual(PRESET_NAMES);
+  });
+
   it('free is the identity unit square', () => {
     expect(getPreset('free')).toEqual([
       { x: 0, y: 0 },
