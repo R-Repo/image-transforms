@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { PRESETS, PRESET_NAMES, getPreset } from './presets';
 
 describe('presets', () => {
-  it('lists all six presets in display order', () => {
+  it('lists all seven presets in display order', () => {
     expect(PRESET_NAMES).toEqual([
       'free',
       'floor',
@@ -10,6 +10,7 @@ describe('presets', () => {
       'rightWall',
       'isoLeft',
       'isoRight',
+      'recedeRight',
     ]);
   });
 
@@ -32,6 +33,15 @@ describe('presets', () => {
       { x: 0.72, y: 0.05 },
       { x: 1.0, y: 0.96 },
       { x: 0.0, y: 0.96 },
+    ]);
+  });
+
+  it('recedeRight matches the documented quad', () => {
+    expect(getPreset('recedeRight')).toEqual([
+      { x: 0.0, y: 0.0 },
+      { x: 0.48, y: 0.2 },
+      { x: 0.48, y: 0.8 },
+      { x: 0.0, y: 1.0 },
     ]);
   });
 

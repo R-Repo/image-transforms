@@ -6,7 +6,8 @@ export type PresetName =
   | 'leftWall'
   | 'rightWall'
   | 'isoLeft'
-  | 'isoRight';
+  | 'isoRight'
+  | 'recedeRight';
 
 export const PRESET_NAMES: PresetName[] = [
   'free',
@@ -15,6 +16,7 @@ export const PRESET_NAMES: PresetName[] = [
   'rightWall',
   'isoLeft',
   'isoRight',
+  'recedeRight',
 ];
 
 /** Human-readable labels for the preset bar. */
@@ -25,9 +27,15 @@ export const PRESET_LABELS: Record<PresetName, string> = {
   rightWall: 'Right Wall',
   isoLeft: 'Iso Left',
   isoRight: 'Iso Right',
+  recedeRight: 'Recede Right',
 };
 
-/** Normalized corner quads, order TL, TR, BR, BL. Values from the design spec. */
+/**
+ * Normalized corner quads, order TL, TR, BR, BL.
+ * The first six are from the design spec; `recedeRight` was hand-tuned in the
+ * editor — left edge stays full-height (near) while the far edge is pulled
+ * inward and foreshortened, giving a strong rightward recede into 3D space.
+ */
 export const PRESETS: Record<PresetName, Corners> = {
   free: [
     { x: 0, y: 0 },
@@ -64,6 +72,12 @@ export const PRESETS: Record<PresetName, Corners> = {
     { x: 1.0, y: 0.3 },
     { x: 1.0, y: 1.0 },
     { x: 0.0, y: 0.74 },
+  ],
+  recedeRight: [
+    { x: 0.0, y: 0.0 },
+    { x: 0.48, y: 0.2 },
+    { x: 0.48, y: 0.8 },
+    { x: 0.0, y: 1.0 },
   ],
 };
 
