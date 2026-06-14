@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { PRESETS, PRESET_NAMES, getPreset } from './presets';
 
 describe('presets', () => {
-  it('lists all seven presets in display order', () => {
+  it('lists all eight presets in display order', () => {
     expect(PRESET_NAMES).toEqual([
       'free',
       'floor',
@@ -11,6 +11,7 @@ describe('presets', () => {
       'isoLeft',
       'isoRight',
       'recedeRight',
+      'stack',
     ]);
   });
 
@@ -41,6 +42,21 @@ describe('presets', () => {
       { x: 0.0, y: 0.0 },
       { x: 0.48, y: 0.2 },
       { x: 0.48, y: 0.8 },
+      { x: 0.0, y: 1.0 },
+    ]);
+  });
+
+  it('stack leans back with perspective foreshortening (far edge shorter and pulled in)', () => {
+    const c = getPreset('stack');
+    const leftHeight = c[3].y - c[0].y; // BL.y - TL.y (near edge)
+    const rightHeight = c[2].y - c[1].y; // BR.y - TR.y (far edge)
+    expect(rightHeight).toBeLessThan(leftHeight); // far edge foreshortened
+    expect(c[1].x).toBeLessThan(1); // far edge pulled inward (perspective, not full-width)
+    expect(c[2].x).toBeLessThan(1);
+    expect(c).toEqual([
+      { x: 0.0, y: 0.15 },
+      { x: 0.47, y: 0.12 },
+      { x: 0.46, y: 0.82 },
       { x: 0.0, y: 1.0 },
     ]);
   });

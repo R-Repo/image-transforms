@@ -7,7 +7,8 @@ export type PresetName =
   | 'rightWall'
   | 'isoLeft'
   | 'isoRight'
-  | 'recedeRight';
+  | 'recedeRight'
+  | 'stack';
 
 export const PRESET_NAMES: PresetName[] = [
   'free',
@@ -17,6 +18,7 @@ export const PRESET_NAMES: PresetName[] = [
   'isoLeft',
   'isoRight',
   'recedeRight',
+  'stack',
 ];
 
 /** Human-readable labels for the preset bar. */
@@ -28,13 +30,19 @@ export const PRESET_LABELS: Record<PresetName, string> = {
   isoLeft: 'Iso Left',
   isoRight: 'Iso Right',
   recedeRight: 'Recede Right',
+  stack: 'Stack',
 };
 
 /**
  * Normalized corner quads, order TL, TR, BR, BL.
- * The first six are from the design spec; `recedeRight` was hand-tuned in the
+ * The first six are from the design spec. `recedeRight` was hand-tuned in the
  * editor — left edge stays full-height (near) while the far edge is pulled
  * inward and foreshortened, giving a strong rightward recede into 3D space.
+ * `stack` is a perspective lean-back: near-left, with the far-right edge
+ * foreshortened and pulled inward plus a slight upward tilt. It keeps the
+ * image's apparent proportions (the shrinking far edge is what reads as depth,
+ * not a shear). Warp several layers of the same extent with it and offset them
+ * vertically to get a "leaning sheets in 3D" layer stack.
  */
 export const PRESETS: Record<PresetName, Corners> = {
   free: [
@@ -77,6 +85,12 @@ export const PRESETS: Record<PresetName, Corners> = {
     { x: 0.0, y: 0.0 },
     { x: 0.48, y: 0.2 },
     { x: 0.48, y: 0.8 },
+    { x: 0.0, y: 1.0 },
+  ],
+  stack: [
+    { x: 0.0, y: 0.15 },
+    { x: 0.47, y: 0.12 },
+    { x: 0.46, y: 0.82 },
     { x: 0.0, y: 1.0 },
   ],
 };
