@@ -11,6 +11,9 @@ export interface EditorCallbacks {
   /** Host decides what to do with the chosen corners (warp + place/download). */
   onApply(corners: Corners): void;
   onCancel(): void;
+  /** Fired when a preset button is clicked, so the host can react — e.g. reveal
+   *  stacking options only while the Stack preset is selected. */
+  onPresetChange?(name: PresetName): void;
 }
 
 const PREVIEW_MAX = 520; // px on the longest side
@@ -86,6 +89,7 @@ export function mountEditor(
     btn.textContent = PRESET_LABELS[name as PresetName];
     btn.addEventListener('click', () => {
       corners = getPreset(name);
+      cb.onPresetChange?.(name);
       redraw();
     });
     presetBar.appendChild(btn);

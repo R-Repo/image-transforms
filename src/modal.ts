@@ -56,10 +56,12 @@ async function start() {
   // later same-extent layers are normalized to, so they stack co-planar.
   let stored = loadStackBox();
   let locked = stored !== null;
+  let currentPreset = '';
 
   const control = document.getElementById('stack-control');
   if (control) {
-    control.style.display = 'flex';
+    // Hidden until the Stack preset is selected — normalization only applies to stacking.
+    control.style.display = 'none';
     control.style.alignItems = 'center';
     control.style.justifyContent = 'center';
     control.style.gap = '8px';
@@ -74,7 +76,7 @@ async function start() {
     checkbox.type = 'checkbox';
     checkbox.checked = locked;
     label.appendChild(checkbox);
-    label.appendChild(document.createTextNode('Match first layer (stack)'));
+    label.appendChild(document.createTextNode('Match first layer'));
 
     const readout = document.createElement('span');
     readout.style.color = '#6b7280';
@@ -110,8 +112,14 @@ async function start() {
   }
 
   mountEditor(root, img, {
+    onPresetChange(name) {
+      currentPreset = name;
+      if (control) control.style.display = name === 'stack' ? 'flex' : 'none';
+    },
     async onApply(corners: Corners) {
       try {
+        // Normalization only applies while stacking (Stack preset selected).
+        const useStack = currentPreset === 'stack' && locked;
         const { box, capture } = resolveTargetBox(
           stored,
           {
@@ -119,7 +127,7 @@ async function start() {
             naturalHeight: img.naturalHeight,
             boardWidth: item.width,
           },
-          locked
+          useStack
         );
         if (capture) saveStackBox(capture);
         const url = await warpToDataUrl(img, corners, {
