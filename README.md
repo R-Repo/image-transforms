@@ -27,7 +27,7 @@ Each warp is a **homography** (projective transform) mapping the image's unit sq
 The quickest way to try it — no Miro needed: open the [live demo](https://image-transforms.vercel.app/standalone.html) (or run locally), pick an image, drag the corners or tap a preset, and **Apply** to download the warped PNG.
 
 ### Miro app
-Right-click an image on the board → **Warp image…** → the editor opens in a modal. Warp it and **Apply**, and a warped copy is placed beside the original. Pick the **Stack** preset and tick **Match first layer** to lay multiple same-extent layers onto one shared 3D plane.
+Select an image, then click the **Image Transforms** toolbar icon → the editor opens in a modal. Warp it and **Apply**, and a warped copy is placed beside the original. Pick the **Stack** preset and tick **Match first layer** to lay multiple same-extent layers onto one shared 3D plane.
 
 ## Run locally
 

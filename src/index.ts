@@ -1,23 +1,17 @@
-// Runs on index.html (the app's App URL root). Registers the context-menu
-// action and opens the editor modal when it fires.
+// Runs on index.html — the app's App URL root (headless iframe). Opening the
+// editor on the toolbar icon click is a stable, Marketplace-eligible entry
+// point (custom context actions are private-app only).
 async function init() {
-  await miro.board.ui.on('custom:warp-image', async () => {
-    await miro.board.ui.openModal({
-      url: 'app.html',
-      fullscreen: true,
-    });
-  });
-
-  await miro.board.experimental.action.register({
-    event: 'warp-image',
-    ui: {
-      label: 'Warp image…',
-      icon: 'crop',
-      description: 'Perspective-warp this image',
-    },
-    scope: 'local',
-    predicate: { type: 'image' },
-    contexts: { item: {} },
+  await miro.board.ui.on('icon:click', async () => {
+    const selection = await miro.board.getSelection();
+    const images = selection.filter((i) => i.type === 'image');
+    if (images.length !== 1) {
+      await miro.board.notifications.showError(
+        'Select a single image, then click Image Transforms.'
+      );
+      return;
+    }
+    await miro.board.ui.openModal({ url: 'app.html', fullscreen: true });
   });
 }
 
