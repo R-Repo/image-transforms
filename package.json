@@ -4,7 +4,7 @@
   "description": "Perspective-warp images on a Miro board or in the browser — free four-corner warp plus one-click 3D-plane presets. Framework-free TypeScript + WebGL, fully client-side.",
   "license": "MIT",
   "author": "Raza Rizvi",
-  "homepage": "https://github.com/R-Repo/image-transforms#readme",
+  "homepage": "https://image-transforms.vercel.app/standalone.html",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/R-Repo/image-transforms.git"

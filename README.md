@@ -4,7 +4,7 @@ Perspective-warp images on a [Miro](https://miro.com) board — or right in your
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-> **Live demo:** _link added after first deploy_ — the standalone warp tool runs entirely in your browser, no Miro account needed.
+> **▶ Live demo:** **<https://image-transforms.vercel.app/standalone.html>** — the standalone warp tool, right in your browser (no Miro account needed).
 
 <!-- Add a screenshot/GIF here, e.g. ![Image Transforms](docs/screenshot.png) -->
 
@@ -24,7 +24,7 @@ Each warp is a **homography** (projective transform) mapping the image's unit sq
 ## Use it
 
 ### Standalone (browser)
-The quickest way to try it — no Miro needed: open the live demo (or run locally), pick an image, drag the corners or tap a preset, and **Apply** to download the warped PNG.
+The quickest way to try it — no Miro needed: open the [live demo](https://image-transforms.vercel.app/standalone.html) (or run locally), pick an image, drag the corners or tap a preset, and **Apply** to download the warped PNG.
 
 ### Miro app
 Right-click an image on the board → **Warp image…** → the editor opens in a modal. Warp it and **Apply**, and a warped copy is placed beside the original. Pick the **Stack** preset and tick **Match first layer** to lay multiple same-extent layers onto one shared 3D plane.
