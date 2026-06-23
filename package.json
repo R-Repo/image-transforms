@@ -1,7 +1,28 @@
 {
   "name": "image-transforms",
   "version": "0.1.0",
+  "description": "Perspective-warp images on a Miro board or in the browser — free four-corner warp plus one-click 3D-plane presets. Framework-free TypeScript + WebGL, fully client-side.",
   "license": "MIT",
+  "author": "Raza Rizvi",
+  "homepage": "https://github.com/R-Repo/image-transforms#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/R-Repo/image-transforms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/R-Repo/image-transforms/issues"
+  },
+  "keywords": [
+    "miro",
+    "miro-app",
+    "miro-sdk",
+    "webgl",
+    "perspective-warp",
+    "homography",
+    "image-editing",
+    "typescript",
+    "vite"
+  ],
   "scripts": {
     "start": "vite",
     "build": "vite build",

@@ -12,7 +12,7 @@ async function init() {
     event: 'warp-image',
     ui: {
       label: 'Warp image…',
-      icon: 'crop', // confirm against IconName; pick another if invalid
+      icon: 'crop',
       description: 'Perspective-warp this image',
     },
     scope: 'local',
